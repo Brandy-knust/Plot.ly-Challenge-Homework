@@ -1,21 +1,57 @@
-const samples = "samples.json"
-d3.json(samples).then(function (data) {
-    console.log(data);
-});
+function buildMetadata(sample) {
+    d3.json("samples.json").then((data) => {
+        var metadata = data.metadata;
 
-// const dataPromise = d3.json(samples);
-// console.log("Data Promise: ", dataPromise);
+        // function plotsInit () {
+        //     d3.json("samples.json")
+        //     var sample = data.samples;
 
-// var real_data = "";
+        var list = metadata.filter(a => a.id == sample);
+        var sampList = data.names;
+        var dropdownMenu = d3.selectAll("#selDataset");
+        sampList.forEach(function (sample){
+            dropdownMenu.append("option").text(sample)
+            .property("value", sample)
+        })
+        var result = list[0];
+        console.log(result);
+        var panel = d3.select("#sample-metadata");
+        panel.html("");
 
-// dataPromise.then(function (data) {
-//     real_data = data
-//     console.log(data);
-// });
-// var sampleID = real_data.names;
+        
+        
+        var selectedOption = dropdownMenu.property("value");
+    })
+}
+buildMetadata();
 
-sampleData = []
-var obj = JSON.parse(samples);
+function barPlot() {
+    sortValues = sampleValues.sort(function sortFunction(a, b) {
+        return b - a;
+    });
+    var otu_ids = data.otu_ids;
+    var otu_labels = data.otu_labels;
+    var sample_values = data.sample_values;
+
+    var trace1 = {
+        type: "bar",
+        mode: "lines",
+        name: otu_ids,
+        x: otu_labels,
+        y: sample_values
+    };
+
+    var data = [trace1];
+
+    var layout = {
+        title: "OTU Types",
+    }
+    Plotly.newPlot("#bar", data, layout);
+}
+
+
+// sampleData = []
+// var obj = JSON.parse(samples);
 // sampleData.forEach(sampleID => {
 //     var personID = samples.metadata.id;
 //     var ethn = samples.metadata.ethnicity;
@@ -33,12 +69,12 @@ var obj = JSON.parse(samples);
 // //     var closingPrices =  data.dataset.data.map(d=>d[4]);
 
 
-// d3.selectAll("#selDataset").on("change", updatePlotly);
-// console.log(obj);
-var otuID = samples.id.otu_ids;
-var sampleValues = samples.id.sample_values;
-var selectedOption =dropdownMenu.property("value");
+// var dropdownMenu = d3.selectAll("#selDataset");
+// // console.log(obj);
+// var otuID = samples.otu_ids;
+// var sampleValues = samples.sample_values;
+// var selectedOption = dropdownMenu.property("value");
 
-sortValues=sampleValues.sort(function sortFunction(a,b) {
-    return b-a;
-})
+
+// d3.json("")
+// d3.json("samples.json").then((data) => )

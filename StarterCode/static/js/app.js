@@ -40,6 +40,7 @@ function buildPanel(id) {
 }
 
 var otu_ids = samples.otu_ids;
+console.log(otu_ids);
 var otu_labels = samples.otu_labels;
 var sample_values = samples.sample_values;
 function barPlot() {
@@ -51,8 +52,8 @@ function barPlot() {
         type: "bar",
         mode: "lines",
         name: otu_ids,
-        x: otu_labels,
-        y: sample_values
+        x: sample_Values,
+        y: otu_ids
     };
 
     var data = [trace1];
@@ -60,7 +61,7 @@ function barPlot() {
     var layout = {
         title: "OTU Types",
     }
-    Plotly.newPlot("#bar", data, layout);
+    Plotly.newPlot("bar", data, layout);
 }
 
 

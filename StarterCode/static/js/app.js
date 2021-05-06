@@ -1,37 +1,51 @@
-function buildMetadata(sample) {
-    d3.json("samples.json").then((data) => {
-        var metadata = data.metadata;
+var sample = []
+var metadata = []
+var names = []
+var samples = []
+// function buildMetadata(sample) {
+d3.json("samples.json").then((data) => {
+    metadata = data.metadata;
+    var list = metadata.filter(a => a.id == sample);
 
-        // function plotsInit () {
-        //     d3.json("samples.json")
-        //     var sample = data.samples;
+    // console.log(result);
 
-        var list = metadata.filter(a => a.id == sample);
-        var sampList = data.names;
-        var dropdownMenu = d3.selectAll("#selDataset");
-        sampList.forEach(function (sample){
-            dropdownMenu.append("option").text(sample)
+
+
+
+    var sampList = data.names;
+    var dropdownMenu = d3.selectAll("#selDataset");
+    sampList.forEach(function (sample) {
+        dropdownMenu.append("option").text(sample)
             .property("value", sample)
-        })
-        var result = list[0];
-        console.log(result);
-        var panel = d3.select("#sample-metadata");
-        panel.html("");
+    });
 
-        
-        
-        var selectedOption = dropdownMenu.property("value");
-    })
+
+
+
+    // var selectedOption = dropdownMenu.property("value");
+});
+
+function optionChanged(value) {
+    console.log(value);
+    buildPanel(value);
 }
-buildMetadata();
+function buildPanel(id) {
+    var PANEL = d3.select("#sample-metadata");
+    PANEL.html("");
+    panData = metadata.filter(a=> a.id == id);
+    console.log(panData);
+    Object.entries(panData).forEach(([key, value]) => {
+        PANEL.append("h6").text(`${key}: ${value}`);
+    });
+}
 
+var otu_ids = samples.otu_ids;
+var otu_labels = samples.otu_labels;
+var sample_values = samples.sample_values;
 function barPlot() {
     sortValues = sampleValues.sort(function sortFunction(a, b) {
         return b - a;
     });
-    var otu_ids = data.otu_ids;
-    var otu_labels = data.otu_labels;
-    var sample_values = data.sample_values;
 
     var trace1 = {
         type: "bar",

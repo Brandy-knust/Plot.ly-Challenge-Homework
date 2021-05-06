@@ -64,31 +64,8 @@ function barPlot() {
 }
 
 
-// sampleData = []
-// var obj = JSON.parse(samples);
-// sampleData.forEach(sampleID => {
-//     var personID = samples.metadata.id;
-//     var ethn = samples.metadata.ethnicity;
-//     var gender = samples.metadata.gender;
-//     var age = samples.metadata.age;
-//     var location = samples.metadata.location;
-//     var bbtype = samples.metadata.bbtype;
-//     var wash = samples.metadata.wfreq;
-// });
-
-// var personalData = sampleData.map(d => d);
-// console.log(personalData);
-
-// //     var dates = data.dataset.data.map(d=>d[0]);
-// //     var closingPrices =  data.dataset.data.map(d=>d[4]);
-
-
 // var dropdownMenu = d3.selectAll("#selDataset");
 // // console.log(obj);
 // var otuID = samples.otu_ids;
 // var sampleValues = samples.sample_values;
 // var selectedOption = dropdownMenu.property("value");
-
-
-// d3.json("")
-// d3.json("samples.json").then((data) => )

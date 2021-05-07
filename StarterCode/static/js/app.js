@@ -22,6 +22,7 @@ d3.json("samples.json").then((data) => {
 
 
     barPlot(sampList[0])
+    bubblePlot(sampList[0])
 
     // var selectedOption = dropdownMenu.property("value");
 });
@@ -30,11 +31,12 @@ function optionChanged(value) {
     console.log(value);
     buildPanel(value);
     barPlot(value);
+    bubblePlot(value);
 }
 function buildPanel(id) {
     var PANEL = d3.select("#sample-metadata");
     PANEL.html("");
-    panData = metadata.filter(a=> a.id == id)[0];
+    panData = metadata.filter(a => a.id == id)[0];
     console.log(panData);
     Object.entries(panData).forEach(([key, value]) => {
         PANEL.append("h6").text(`${key}: ${value}`);
@@ -53,9 +55,9 @@ function barPlot(id) {
     var otu_labels = filteredSamples.otu_labels;
     var sample_values = filteredSamples.sample_values;
     sortValues = sample_values.sort(function sortFunction(a, b) {
-        return b - a;
-    })
-    slicedbar= sortValues.slice(0,10).reverse;
+        return b - a})
+    slicedbar= sortValues.slice(0, 10).reverse();
+    
 
     var trace1 = {
         type: "bar",
@@ -66,14 +68,45 @@ function barPlot(id) {
         orientation: "h"
     };
 
-    var data = [trace1];
+    var id = [trace1];
 
     var layout = {
         title: "OTU Types",
     }
-    Plotly.newPlot("bar", data, layout);
+    Plotly.newPlot("bar", id, layout);
 }
 
+function bubblePlot(id) {
+    filteredSamples = samples.filter(samp => samp.id == id)[0];
+    console.log(filteredSamples);
+    var otu_ids = filteredSamples.otu_ids;
+    console.log(otu_ids);
+    var otu_labels = filteredSamples.otu_labels;
+    var sample_values = filteredSamples.sample_values;
+
+    var trace2 = {
+        type: bubble,
+        x: otu_ids,
+        y: sample_values,
+        mode: "markers",
+        marker: {
+            sample_values,
+            size: sample_values,
+            sizeMin: 100,
+            sizemode: "area",
+            color: otu_ids,
+            colorscale: 'Picnic'
+        },
+        textValues: otu_labels
+    };
+
+        var id = [trace2];
+
+        var layout = {
+            title: "Bacteria Cultures per Sample"
+        };
+        Plotly.newPlot("bubble", id, layout);
+    }
 
 
 // var dropdownMenu = d3.selectAll("#selDataset");

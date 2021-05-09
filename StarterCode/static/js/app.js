@@ -23,6 +23,7 @@ d3.json("samples.json").then((data) => {
 
     barPlot(sampList[0])
     bubblePlot(sampList[0])
+    gauge(sampList[0])
 
     // var selectedOption = dropdownMenu.property("value");
 });
@@ -32,6 +33,7 @@ function optionChanged(value) {
     buildPanel(value);
     barPlot(value);
     bubblePlot(value);
+    gauge(value);
 }
 function buildPanel(id) {
     var PANEL = d3.select("#sample-metadata");
@@ -111,7 +113,7 @@ function barPlot(id) {
             mode: "markers",
             marker: {
                 sample_values,
-                size: sample_values.map(d=>d*4),
+                size: sample_values.map(d=>d*10),
                 sizeMin: 100,
                 sizemode: "area",
                 color: otu_ids,
@@ -123,48 +125,59 @@ function barPlot(id) {
         var id = [trace2];
 
         var layout = {
-            title: "Bacteria Cultures per Sample"
+            title: "Bacteria Cultures per Sample",
+            xaxis: { title: "OTU IDs"}
         };
         Plotly.newPlot("bubble", id, layout);
     }
-    // function guage(id) {
-        // metadata.filter(a => a.id == id)[0];
+    function gauge(id) {
+        washed = metadata.filter(a => a.id == id)[0];
+        var wFreq = washed.wfreq;
+        console.log(wFreq);
+        var trace3 = [
+                {
+                  type: "indicator",
+                  mode: "gauge+number",
+                  value: wFreq,
+                  title: { text: "Belly Button Washing Frequency", font: { size: 24 } },
+                  gauge: {
+                    axis: { range: [null, 9], tickwidth: 2, visible: false},
+                    domain: { row: 0, column: 0 },
+                    bar: { color: "green" },
+                    // bgcolor: "white",
+                    borderwidth: 2,
+                    bordercolor: "black",
+                    steps: [
+                      { range: [0, 1], color: "#ebf9f9" },
+                      { range: [1, 2], color: "#d7f4f4" },
+                      { range: [2, 3], color: "#c4eeee" },
+                      { range: [3, 4], color: "#b0d8e8" },
+                      { range: [4, 5], color: "#88dddd" },
+                      { range: [5, 6], color: "#75d7d7" },
+                      { range: [6, 7], color: "#61d1d1" },
+                      { range: [7, 8], color: "#39c6c6" },
+                      { range: [8, 9], color: "#2e9e9e" }
+                    ],
+                    // threshold: {
+                    //   line: { color: "red", width: 4 },
+                    //   thickness: 0.75,
+                    //   value: 490
+                    // }
+                  }
+                }
+              ];
 
-        // var data = [
-            //     {
-            //       type: "indicator",
-            //       mode: "gauge+number+delta",
-            //       value: 420,
-            //       title: { text: "Speed", font: { size: 24 } },
-            //       delta: { reference: 400, increasing: { color: "RebeccaPurple" } },
-            //       gauge: {
-            //         axis: { range: [null, 500], tickwidth: 1, tickcolor: "darkblue" },
-            //         bar: { color: "darkblue" },
-            //         bgcolor: "white",
-            //         borderwidth: 2,
-            //         bordercolor: "gray",
-            //         steps: [
-            //           { range: [0, 250], color: "cyan" },
-            //           { range: [250, 400], color: "royalblue" }
-            //         ],
-            //         threshold: {
-            //           line: { color: "red", width: 4 },
-            //           thickness: 0.75,
-            //           value: 490
-            //         }
-            //       }
-            //     }
-            //   ];
+              var id = [trace3];
               
-            //   var layout = {
-            //     width: 500,
-            //     height: 400,
-            //     margin: { t: 25, r: 25, l: 25, b: 25 },
-            //     paper_bgcolor: "lavender",
-            //     font: { color: "darkblue", family: "Arial" }
-            //   };
+              var layout = {
+                width: 500,
+                height: 400,
+                margin: { t: 25, r: 25, l: 25, b: 25 },
+                paper_bgcolor: "lavender",
+                font: { color: "darkblue", family: "Arial" }
+              };
               
-            //   Plotly.newPlot('myDiv', data, layout);
-    // }
+              Plotly.newPlot('gauge', id, layout);
+    }
         
 

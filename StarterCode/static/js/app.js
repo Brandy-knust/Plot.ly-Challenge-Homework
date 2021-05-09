@@ -170,7 +170,7 @@ function barPlot(id) {
               var id = [trace3];
               
               var layout = {
-                width: 500,
+                width: 450,
                 height: 400,
                 margin: { t: 25, r: 25, l: 25, b: 25 },
                 paper_bgcolor: "lavender",
